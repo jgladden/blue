@@ -44,7 +44,7 @@ export default function DashboardPage() {
         <div>
           <h1 className="text-2xl font-semibold">Patient Dashboard</h1>
           <p className="text-base text-muted mt-1">
-            Readmission risk assessment of patients admitted over last 30 days.
+            Readmission Risk Overview for Recent Admissions (Last 30 Days)
           </p>
         </div>
         <button

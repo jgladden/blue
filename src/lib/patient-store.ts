@@ -50,7 +50,7 @@ const SEED_PATIENTS: Patient[] = [
   {
     patient_id: "PT-20401",
     demographics: { age: 68, sex: "M", race: "White", preferred_language: "English", insurance_type: "Medicare" },
-    admission: { admit_date: "2026-03-10", discharge_date: "2026-03-16", length_of_stay_days: 6, admitting_diagnosis: "Acute exacerbation of CHF", icd10_codes: ["I50.23", "I10", "E11.9"], discharge_disposition: "Home" },
+    admission: { admit_date: "2026-04-12", discharge_date: "2026-03-16", length_of_stay_days: 6, admitting_diagnosis: "Acute exacerbation of CHF", icd10_codes: ["I50.23", "I10", "E11.9"], discharge_disposition: "Home" },
     clinical_history: { prior_admissions_12mo: 3, prior_ed_visits_12mo: 5, chronic_conditions: ["Congestive heart failure", "Hypertension", "Type 2 diabetes"], charlson_comorbidity_index: 6 },
     medications_at_discharge: [
       { name: "Furosemide", dose: "80mg", frequency: "BID" },

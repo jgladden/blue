@@ -44,12 +44,6 @@ export default function PatientProfile({ patient, hideTitle }: { patient: Patien
       <Section title="Admission">
         <Field label="Diagnosis" value={p.admission.admitting_diagnosis} />
         <Field label="Admitted" value={p.admission.admit_date} />
-        <Field label="Discharged" value={p.admission.discharge_date} />
-        <Field
-          label="Length of Stay"
-          value={`${p.admission.length_of_stay_days} days`}
-        />
-        <Field label="Disposition" value={p.admission.discharge_disposition} />
         <Field label="ICD-10" value={p.admission.icd10_codes.join(", ")} />
       </Section>
 
