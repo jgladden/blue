@@ -115,6 +115,7 @@ export default function OverviewPage() {
           <h2 className="text-lg font-semibold mb-4">
             Most Common Risk Factors
           </h2>
+          <p className="text-sm text-muted mb-4">Based on patient data set.</p>
           <div className="space-y-2">
             {topFactors.map(([factor, count]) => (
               <div key={factor} className="flex items-center gap-3">
@@ -125,7 +126,7 @@ export default function OverviewPage() {
                     minWidth: "20px",
                   }}
                 />
-                <span className="text-sm font-semibold text-accent whitespace-nowrap">{count}</span>
+                <span className="text-sm font-semibold text-accent whitespace-nowrap">{Math.round((count / 30) * 100)}%</span>
                 <span className="text-sm whitespace-nowrap">{factor}</span>
               </div>
             ))}

@@ -16,6 +16,11 @@ import Link from "next/link";
 export default function DashboardPage() {
   const [patients, setPatients] = useState<Patient[]>([]);
   const [syncing, setSyncing] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState(() => {
+    const d = new Date();
+    d.setHours(d.getHours() - 1);
+    return d;
+  });
 
   const refreshPatients = useCallback(() => {
     setPatients(getStoredPatients());
@@ -34,6 +39,7 @@ export default function DashboardPage() {
       addPatient(newPatient);
       refreshPatients();
       trackEvent("ehr_refresh_completed", { patient_id: newPatient.patient_id });
+      setLastUpdated(new Date());
       setSyncing(false);
     }, 3000);
   }
@@ -47,26 +53,31 @@ export default function DashboardPage() {
             Readmission Risk Overview for Recent Admissions (Last 30 Days)
           </p>
         </div>
-        <button
-          onClick={handleRefreshEHR}
-          disabled={syncing}
-          className="flex items-center gap-1.5 px-4 py-2 text-sm bg-accent text-white rounded-md hover:bg-accent/90 disabled:opacity-70 transition-colors"
-        >
-          <svg
-            className={`w-4 h-4 ${syncing ? "animate-spin" : ""}`}
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
+        <div className="flex flex-col items-end gap-[7px]">
+          <button
+            onClick={handleRefreshEHR}
+            disabled={syncing}
+            className="flex items-center gap-1.5 px-4 py-2 text-sm bg-accent text-white rounded-md hover:bg-accent/90 disabled:opacity-70 transition-colors"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M4 4v5h5M20 20v-5h-5M20.49 9A9 9 0 005.64 5.64L4 4m16 16l-1.64-1.64A9 9 0 014.51 15"
-            />
-          </svg>
-          {syncing ? "Syncing..." : "Sync EHR Patient Data"}
-        </button>
+            <svg
+              className={`w-4 h-4 ${syncing ? "animate-spin" : ""}`}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4 4v5h5M20 20v-5h-5M20.49 9A9 9 0 005.64 5.64L4 4m16 16l-1.64-1.64A9 9 0 014.51 15"
+              />
+            </svg>
+            {syncing ? "Syncing..." : "Sync EHR Patient Data"}
+          </button>
+          <p className="text-[10px] text-muted">
+            Last updated: {lastUpdated.toLocaleDateString()} {lastUpdated.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}
+          </p>
+        </div>
       </div>
 
       {/* Discharging today alert */}
