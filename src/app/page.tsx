@@ -48,9 +48,11 @@ export default function DashboardPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-semibold">Patient Dashboard</h1>
+          <h1 className="text-2xl font-semibold text-foreground">
+            Risk Overview (Last 30 Days)
+          </h1>
           <p className="text-base text-muted mt-1">
-            Readmission Risk Overview for Recent Admissions (Last 30 Days)
+            Patient triage — risk score, team assignment, and intervention status tracking
           </p>
         </div>
         <div className="flex flex-col items-end gap-[7px]">
@@ -76,7 +78,7 @@ export default function DashboardPage() {
           </button>
           <p className="text-[10px] text-muted">
             Last updated: {lastUpdated.toLocaleDateString()} {lastUpdated.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}
-          </p>
+        </p>
         </div>
       </div>
 
