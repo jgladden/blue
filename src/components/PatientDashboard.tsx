@@ -7,6 +7,8 @@ import { scorePatient } from "@/lib/scoring";
 import { trackEvent } from "@/lib/analytics";
 import { getAllAssignments } from "@/lib/assignments";
 import { getAllInterventionStatuses } from "@/lib/interventions";
+import { getAllCoordinatorInterventions } from "@/lib/coordinator-interventions";
+import { getNarrative } from "@/lib/narratives";
 import RiskBadge from "./RiskBadge";
 import PatientDrawer from "./PatientDrawer";
 import DateRangePicker from "./DateRangePicker";
@@ -38,6 +40,8 @@ export default function PatientDashboard({
 
   const [assignmentMap, setAssignmentMap] = useState<Record<string, string>>({});
   const [interventionStatusMap, setInterventionStatusMap] = useState<Record<string, InterventionStatusEntry[]>>({});
+  const [coordinatorMap, setCoordinatorMap] = useState<Record<string, import("@/lib/types").CoordinatorIntervention[]>>({});
+  const [aiInterventionCountMap, setAiInterventionCountMap] = useState<Record<string, number>>({});
 
   useEffect(() => {
     const map: Record<string, string> = {};
@@ -55,6 +59,27 @@ export default function PatientDashboard({
       map[entry.patient_id].push(entry);
     }
     setInterventionStatusMap(map);
+  }, [patients]);
+
+  useEffect(() => {
+    const all = getAllCoordinatorInterventions();
+    const map: Record<string, import("@/lib/types").CoordinatorIntervention[]> = {};
+    for (const entry of all) {
+      if (!map[entry.patient_id]) map[entry.patient_id] = [];
+      map[entry.patient_id].push(entry);
+    }
+    setCoordinatorMap(map);
+  }, [patients]);
+
+  useEffect(() => {
+    const map: Record<string, number> = {};
+    for (const p of patients) {
+      const cached = getNarrative(p.patient_id);
+      if (cached) {
+        map[p.patient_id] = cached.narrative.recommended_interventions.length;
+      }
+    }
+    setAiInterventionCountMap(map);
   }, [patients]);
 
   const assignees = useMemo(
@@ -157,15 +182,16 @@ export default function PatientDashboard({
 
   function getPatientStatus(patientId: string): "Open" | "Assigned" | "In Progress" | "Complete" {
     if (!assignmentMap[patientId]) return "Open";
-    const statuses = interventionStatusMap[patientId];
-    if (!statuses || statuses.length === 0) return "Assigned";
-    const allComplete = statuses.every(
-      (s) => s.status === "completed" || s.status === "not_applicable"
-    );
+    const aiStatuses = interventionStatusMap[patientId] || [];
+    const coordStatuses = coordinatorMap[patientId] || [];
+    if (aiStatuses.length === 0 && coordStatuses.length === 0) return "Assigned";
+    const aiCount = aiInterventionCountMap[patientId] || 0;
+    const allAiAddressed = aiCount === 0 || aiStatuses.length >= aiCount;
+    const allComplete = allAiAddressed
+      && aiStatuses.every((s) => s.status === "completed" || s.status === "not_applicable")
+      && coordStatuses.every((s) => s.status === "completed");
     if (allComplete) return "Complete";
-    const anyInProgress = statuses.some((s) => s.status === "in_progress");
-    if (anyInProgress) return "In Progress";
-    return "Assigned";
+    return "In Progress";
   }
 
   const SortHeader = ({

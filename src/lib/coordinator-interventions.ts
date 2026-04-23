@@ -12,6 +12,15 @@ export function getCoordinatorInterventions(patientId: string): CoordinatorInter
   }
 }
 
+export function getAllCoordinatorInterventions(): CoordinatorIntervention[] {
+  if (typeof window === "undefined") return [];
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]") as CoordinatorIntervention[];
+  } catch {
+    return [];
+  }
+}
+
 export function addCoordinatorIntervention(intervention: CoordinatorIntervention): void {
   if (typeof window === "undefined") return;
   try {
