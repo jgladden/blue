@@ -5,11 +5,11 @@ let initialized = false;
 export function initPostHog() {
   if (initialized || typeof window === "undefined") return;
 
-  const key = process.env.POSTHOG_KEY;
-  const host = process.env.POSTHOG_HOST || "https://us.i.posthog.com";
+  const key = process.env.NEXT_PUBLIC_POSTHOG_KEY;
+  const host = process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://us.i.posthog.com";
 
   if (!key) {
-    console.warn("PostHog: POSTHOG_KEY not set — analytics disabled");
+    console.warn("PostHog: NEXT_PUBLIC_POSTHOG_KEY not set — analytics disabled");
     return;
   }
 
