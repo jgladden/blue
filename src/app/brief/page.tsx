@@ -23,15 +23,9 @@ export default function ProductBriefPage() {
 
             <div>
               <h3 className="font-semibold mb-1">Value Proposition</h3>
-              <p>
-                A single view surfacing high-risk patients with plain-language explanations of <em>why</em> they are at risk and specific, actionable interventions — without requiring coordinators to hunt across chart screens. Built now to validate clinical utility before investing in full EHR integration.
-              </p>
-            </div>
 
-            <div>
-              <h3 className="font-semibold mb-1">Strategic Alignment</h3>
               <p>
-                Reduces HRRP financial penalties, improves patient outcomes, and delivers measurable ROI through avoided readmissions. Supports health system priorities around value-based care and population health management.
+                Reduces HRRP financial penalties, enhances coordinator productivity, improves patient outcomes, and delivers measurable ROI through avoided readmissions.
               </p>
             </div>
           </div>
@@ -44,7 +38,7 @@ export default function ProductBriefPage() {
 
             <div>
               <h3 className="font-semibold mb-2">Goals</h3>
-              <p>Equip discharge coordinators with a unified risk assessment and intervention planning tool that reduces avoidable 30-day readmissions by surfacing actionable insights at the point of discharge.</p>
+              <p>Equip discharge coordinators with a unified risk assessment and intervention planning tool that reduces avoidable 30-day readmissions by surfacing actionable insights.</p>
             </div>
 
             <div className="border border-border rounded-lg p-4">
@@ -89,7 +83,7 @@ export default function ProductBriefPage() {
 
         {/* 5. Requirements & User Stories */}
         <section className="bg-card border border-border rounded-lg p-6">
-          <h2 className="text-lg font-semibold mb-4">Requirements &amp; User Stories</h2>
+          <h2 className="text-lg font-semibold mb-4">Requirements</h2>
           <div className="space-y-4 text-sm leading-relaxed">
 
             <div>
@@ -126,14 +120,21 @@ export default function ProductBriefPage() {
               <h3 className="font-semibold mb-2">Won't-Have (V2+)</h3>
               <ul className="space-y-2 list-disc list-inside">
                 <li>EHR integration via FHIR — requires healthcare IT coordination and BAAs.</li>
+                <li>Automated patient assignment — deferred to manual self-assignment via dashboard.</li>
                 <li>Custom ML model — re-evaluated with real-world data.</li>
-                <li>Multi-language UI — requires localization infrastructure.</li>
                 <li>Post-discharge tracking — scope limited to admission-to-discharge window.</li>
               </ul>
             </div>
 
+          </div>
+        </section>
+
+        {/* User Stories */}
+        <section className="bg-card border border-border rounded-lg p-6">
+          <h2 className="text-lg font-semibold mb-4">User Stories</h2>
+          <div className="space-y-4 text-sm leading-relaxed">
+
             <div>
-              <h3 className="font-semibold mb-2">User Stories</h3>
               <ul className="space-y-2 list-disc list-inside">
                 <li>As a discharge coordinator, I want to see all my patients sorted by readmission risk so I can prioritize my rounds.</li>
                 <li>As a discharge coordinator, I want to understand <em>why</em> a patient is high-risk in plain language so I can act on the specific drivers.</li>
@@ -211,25 +212,14 @@ export default function ProductBriefPage() {
           </div>
         </section>
 
-        {/* 9. Future Work / Open Questions */}
+        {/* 9. Open Questions */}
         <section className="bg-card border border-border rounded-lg p-6">
-          <h2 className="text-lg font-semibold mb-4">Future Work / Open Questions</h2>
+          <h2 className="text-lg font-semibold mb-4">Open Questions</h2>
           <div className="space-y-4 text-sm leading-relaxed">
 
             <div>
-              <h3 className="font-semibold mb-2">V2+ Roadmap</h3>
-              <ol className="space-y-2 list-decimal list-inside">
-                <li><strong>EHR integration via FHIR:</strong> Replace simulated data with live patient records from Epic or Cerner. Single highest-risk item on the roadmap.</li>
-                <li><strong>Automated alerting:</strong> Push notifications for HIGH-risk patient admissions routed to assigned coordinators.</li>
-                <li><strong>Outcome feedback loop:</strong> Correlate completed interventions with actual 30-day readmission outcomes to calibrate the scoring model.</li>
-                <li><strong>Demographic equity dashboard:</strong> Monitor risk tier distribution by race, language, and insurance type to identify algorithmic bias.</li>
-                <li><strong>Post-discharge tracking:</strong> Follow-up calls, home health coordination, and remote monitoring integration.</li>
-              </ol>
-            </div>
-
-            <div>
-              <h3 className="font-semibold mb-2">Open Questions</h3>
               <ul className="space-y-2 list-disc list-inside">
+                <li>What is the current workflow for assigning coordinators patients?</li>
                 <li>What is the partner hospital's actual readmission rate and average cost per readmission? (Currently using published Medicare estimates.)</li>
                 <li>Is this tool classified as a quality improvement initiative or human subjects research — does it require IRB review?</li>
                 <li>Does the CDS exemption under the 21st Century Cures Act apply, or is FDA regulatory review needed?</li>
