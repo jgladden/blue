@@ -100,40 +100,69 @@ export default function OutcomesPage() {
           <h2 className="text-lg font-semibold mb-4">Estimated Cost Avoidance</h2>
           {(() => {
             const pts = getStoredPatients();
+
+            const patientRiskMap: Record<string, string> = {};
+            for (const p of pts) {
+              patientRiskMap[p.patient_id] = scorePatient(p).level;
+            }
+
+            function getTierStats(tier: string) {
+              const tierPatients = new Set(
+                pts.filter((p) => scorePatient(p).level === tier).map((p) => p.patient_id)
+              );
+              const aiInt = interventionStatuses.filter((s) => tierPatients.has(s.patient_id));
+              const coordInt = coordinatorInterventions.filter((c) => tierPatients.has(c.patient_id));
+
+              const aiNotApplicable = aiInt.filter((s) => s.status === "not_applicable").length;
+              const aiAccepted = aiInt.filter(
+                (s) => s.status === "in_progress" || s.status === "completed"
+              ).length;
+              const coordAccepted = coordInt.filter(
+                (c) => c.status === "in_progress" || c.status === "completed"
+              ).length;
+              const totalAccepted = aiAccepted + coordAccepted;
+
+              let aiTotal = 0;
+              try {
+                const narratives = JSON.parse(localStorage.getItem("aiclin_narratives") || "[]");
+                for (const n of narratives) {
+                  if (tierPatients.has(n.patient_id)) {
+                    aiTotal += n.narrative?.recommended_interventions?.length ?? 0;
+                  }
+                }
+              } catch {}
+
+              const totalInterventions = (aiTotal - aiNotApplicable) + coordInt.length;
+              const completedAI = aiInt.filter((s) => s.status === "completed").length;
+              const completedCoord = coordInt.filter((c) => c.status === "completed").length;
+              const completedStatuses = completedAI + completedCoord;
+              const completionRate = totalInterventions > 0
+                ? completedStatuses / totalInterventions
+                : 0;
+              const acceptanceRate = totalInterventions > 0
+                ? totalAccepted / totalInterventions
+                : 0;
+
+              return { totalInterventions, completedStatuses, completionRate, acceptanceRate, tierPatients };
+            }
+
+            const highStats = getTierStats("HIGH");
+            const medStats = getTierStats("MEDIUM");
+
             const highRiskCount = pts.filter((p) => scorePatient(p).level === "HIGH").length;
             const medRiskCount = pts.filter((p) => scorePatient(p).level === "MEDIUM").length;
 
-            const aiNotApplicable = interventionStatuses.filter(
-              (s) => s.status === "not_applicable"
-            ).length;
-            const aiAccepted = interventionStatuses.filter(
-              (s) => s.status === "in_progress" || s.status === "completed"
-            ).length;
-            const coordAccepted = coordinatorInterventions.filter(
-              (c) => c.status === "in_progress" || c.status === "completed"
-            ).length;
-            const totalAccepted = aiAccepted + coordAccepted;
-            const totalInterventions = (totalAIInterventions - aiNotApplicable) + coordinatorInterventions.length;
-            const acceptanceRate = totalInterventions > 0
-              ? totalAccepted / totalInterventions
-              : 0;
-
-            const completedAI = interventionStatuses.filter(
-              (s) => s.status === "completed"
-            ).length;
-            const completedCoordinator = coordinatorInterventions.filter(
-              (c) => c.status === "completed"
-            ).length;
-            const completedStatuses = completedAI + completedCoordinator;
-            const completionRate = totalInterventions > 0
-              ? completedStatuses / totalInterventions
-              : 0;
+            const combinedTotal = highStats.totalInterventions + medStats.totalInterventions;
+            const combinedCompleted = highStats.completedStatuses + medStats.completedStatuses;
+            const combinedAccepted = highStats.acceptanceRate * highStats.totalInterventions + medStats.acceptanceRate * medStats.totalInterventions;
+            const combinedCompletionRate = combinedTotal > 0 ? combinedCompleted / combinedTotal : 0;
+            const combinedAcceptanceRate = combinedTotal > 0 ? combinedAccepted / combinedTotal : 0;
 
             const avgCost = 20000;
             const highPrevention = 0.15;
             const medPrevention = 0.08;
-            const highSavings = Math.round(highRiskCount * completionRate * highPrevention * avgCost);
-            const medSavings = Math.round(medRiskCount * completionRate * medPrevention * avgCost);
+            const highSavings = Math.round(highRiskCount * highStats.completionRate * highPrevention * avgCost);
+            const medSavings = Math.round(medRiskCount * medStats.completionRate * medPrevention * avgCost);
             const totalSavings = highSavings + medSavings;
 
             return (
@@ -142,14 +171,14 @@ export default function OutcomesPage() {
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
                   <div>
                     <div className="text-2xl font-bold">
-                      {totalInterventions > 0
-                        ? `${Math.round(acceptanceRate * 100)}%`
+                      {combinedTotal > 0
+                        ? `${Math.round(combinedAcceptanceRate * 100)}%`
                         : "0%"}
                     </div>
                     <div className="text-xs text-muted">Intervention acceptance rate</div>
                   </div>
                   <div>
-                    <div className="text-2xl font-bold">{Math.round(completionRate * 100)}%</div>
+                    <div className="text-2xl font-bold">{Math.round(combinedCompletionRate * 100)}%</div>
                     <div className="text-xs text-muted">Intervention completion rate</div>
                   </div>
                   <div>
@@ -177,7 +206,7 @@ export default function OutcomesPage() {
                       <tr className="border-b border-border">
                         <td className="py-2 font-semibold text-risk-high">HIGH</td>
                         <td className="py-2 text-right">{highRiskCount}</td>
-                        <td className="py-2 text-right">{Math.round(completionRate * 100)}%</td>
+                        <td className="py-2 text-right">{Math.round(highStats.completionRate * 100)}%</td>
                         <td className="py-2 text-right">15%</td>
                         <td className="py-2 text-right">$20,000</td>
                         <td className="py-2 text-right font-semibold">${highSavings.toLocaleString()}</td>
@@ -185,7 +214,7 @@ export default function OutcomesPage() {
                       <tr className="border-b border-border">
                         <td className="py-2 font-semibold text-risk-medium">MEDIUM</td>
                         <td className="py-2 text-right">{medRiskCount}</td>
-                        <td className="py-2 text-right">{Math.round(completionRate * 100)}%</td>
+                        <td className="py-2 text-right">{Math.round(medStats.completionRate * 100)}%</td>
                         <td className="py-2 text-right">8%</td>
                         <td className="py-2 text-right">$20,000</td>
                         <td className="py-2 text-right font-semibold">${medSavings.toLocaleString()}</td>
@@ -201,8 +230,8 @@ export default function OutcomesPage() {
                 <div className="border-t border-border pt-3 mt-4">
                   <p className="text-xs text-muted">
                     Patients x completion rate x prevention rate x $20,000 avg readmission cost.
-                    {totalInterventions > 0
-                      ? ` Completion rate based on ${completedStatuses} of ${totalInterventions} interventions completed (AI + coordinator).`
+                    {combinedTotal > 0
+                      ? ` Completion rate based on ${combinedCompleted} of ${combinedTotal} interventions completed (AI + coordinator).`
                       : ""}
                     {" "}Prevention rate: 15% for HIGH-risk, 8% for MEDIUM-risk.
                   </p>

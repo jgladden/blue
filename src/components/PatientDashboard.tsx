@@ -2,10 +2,11 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import type { Patient, RiskScore } from "@/lib/types";
+import type { Patient, RiskScore, InterventionStatusEntry } from "@/lib/types";
 import { scorePatient } from "@/lib/scoring";
 import { trackEvent } from "@/lib/analytics";
 import { getAllAssignments } from "@/lib/assignments";
+import { getAllInterventionStatuses } from "@/lib/interventions";
 import RiskBadge from "./RiskBadge";
 import PatientDrawer from "./PatientDrawer";
 import DateRangePicker from "./DateRangePicker";
@@ -33,8 +34,10 @@ export default function PatientDashboard({
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
   const [filterAssigned, setFilterAssigned] = useState<string>("all");
+  const [filterStatus, setFilterStatus] = useState<string>("all");
 
   const [assignmentMap, setAssignmentMap] = useState<Record<string, string>>({});
+  const [interventionStatusMap, setInterventionStatusMap] = useState<Record<string, InterventionStatusEntry[]>>({});
 
   useEffect(() => {
     const map: Record<string, string> = {};
@@ -42,6 +45,16 @@ export default function PatientDashboard({
       map[a.patient_id] = a.assigned_to;
     }
     setAssignmentMap(map);
+  }, [patients]);
+
+  useEffect(() => {
+    const all = getAllInterventionStatuses();
+    const map: Record<string, InterventionStatusEntry[]> = {};
+    for (const entry of all) {
+      if (!map[entry.patient_id]) map[entry.patient_id] = [];
+      map[entry.patient_id].push(entry);
+    }
+    setInterventionStatusMap(map);
   }, [patients]);
 
   const assignees = useMemo(
@@ -84,6 +97,9 @@ export default function PatientDashboard({
         result = result.filter((r) => assignmentMap[r.patient.patient_id] === filterAssigned);
       }
     }
+    if (filterStatus !== "all") {
+      result = result.filter((r) => getPatientStatus(r.patient.patient_id) === filterStatus);
+    }
     if (dateFrom) {
       result = result.filter((r) => r.patient.admission.admit_date >= dateFrom);
     }
@@ -91,7 +107,7 @@ export default function PatientDashboard({
       result = result.filter((r) => r.patient.admission.admit_date <= dateTo);
     }
     return result;
-  }, [rows, search, filterLevel, filterAssigned, assignmentMap, dateFrom, dateTo]);
+  }, [rows, search, filterLevel, filterAssigned, filterStatus, assignmentMap, interventionStatusMap, dateFrom, dateTo]);
 
   const sorted = useMemo(() => {
     const copy = [...filtered];
@@ -137,6 +153,19 @@ export default function PatientDashboard({
         setFilterLevel(value);
         break;
     }
+  }
+
+  function getPatientStatus(patientId: string): "Open" | "Assigned" | "In Progress" | "Complete" {
+    if (!assignmentMap[patientId]) return "Open";
+    const statuses = interventionStatusMap[patientId];
+    if (!statuses || statuses.length === 0) return "Assigned";
+    const allComplete = statuses.every(
+      (s) => s.status === "completed" || s.status === "not_applicable"
+    );
+    if (allComplete) return "Complete";
+    const anyInProgress = statuses.some((s) => s.status === "in_progress");
+    if (anyInProgress) return "In Progress";
+    return "Assigned";
   }
 
   const SortHeader = ({
@@ -236,6 +265,17 @@ export default function PatientDashboard({
             <option key={a} value={a}>{a}</option>
           ))}
         </select>
+        <select
+          value={filterStatus}
+          onChange={(e) => setFilterStatus(e.target.value)}
+          className="text-sm border border-border rounded-md pl-3 pr-10 py-1.5 bg-card appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2364748b%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%209l6%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:16px_16px] bg-[right_0.75rem_center] bg-no-repeat"
+        >
+          <option value="all">All statuses</option>
+          <option value="Open">Open</option>
+          <option value="Assigned">Assigned</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Complete">Complete</option>
+        </select>
         <DateRangePicker
           value={dateKey}
           onChange={(key, f, t) => {
@@ -262,13 +302,15 @@ export default function PatientDashboard({
                 Assigned To
               </th>
               <th className="px-4 py-3 text-left text-xs font-medium text-muted uppercase tracking-wider">
-                Key Factors
+                Status
               </th>
               <th className="w-8"></th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
-            {sorted.map(({ patient: p, risk }) => (
+            {sorted.map(({ patient: p, risk }) => {
+              const status = getPatientStatus(p.patient_id);
+              return (
               <tr
                 key={p.patient_id}
                 className="hover:bg-accent-light/50 transition-colors cursor-pointer"
@@ -306,28 +348,21 @@ export default function PatientDashboard({
                 <td className="px-5 py-5 text-sm">
                   <RiskBadge level={risk.level} score={risk.total} />
                 </td>
-                <td className={`px-5 py-5 text-sm ${assignmentMap[p.patient_id] ? "text-foreground" : "text-risk-high font-medium"}`}>
-                  {assignmentMap[p.patient_id] || "Unassigned"}
+                <td className="px-5 py-5 text-sm text-muted">
+                  {assignmentMap[p.patient_id] || "—"}
                 </td>
                 <td className="px-5 py-5 text-sm">
-                  <div className="flex flex-wrap gap-1">
-                    {risk.factors.slice(0, 6).map((f, i) => (
-                      <span
-                        key={i}
-                        className="inline-block text-xs bg-background px-2 py-0.5 rounded border border-border"
-                      >
-                        {f.label}
-                      </span>
-                    ))}
-                    {risk.factors.length > 6 && (
-                      <span
-                        className="text-xs text-muted cursor-default"
-                        title={risk.factors.slice(6).map((f) => f.label).join(", ")}
-                      >
-                        +{risk.factors.length - 6} more
-                      </span>
+                  <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                    status === "Open" ? "bg-yellow-100 text-yellow-800" :
+                    status === "Assigned" ? "bg-blue-100 text-blue-800" :
+                    status === "In Progress" ? "bg-purple-100 text-purple-800" :
+                    "bg-green-100 text-green-800"
+                  }`}>
+                    {status === "In Progress" && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse" />
                     )}
-                  </div>
+                    {status}
+                  </span>
                 </td>
                 <td className="px-2 py-5 text-muted">
                   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -335,7 +370,8 @@ export default function PatientDashboard({
                   </svg>
                 </td>
               </tr>
-            ))}
+              );
+            })}
           </tbody>
         </table>
       </div>
