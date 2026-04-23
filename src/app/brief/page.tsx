@@ -10,13 +10,7 @@ export default function ProductBriefPage() {
 
       <div className="space-y-8">
 
-        {/* 1. Stakeholder */}
-        <section className="bg-card border border-border rounded-lg p-6">
-          <h2 className="text-lg font-semibold mb-4">Stakeholder</h2>
-          <p className="text-sm leading-relaxed">Hospital POC, PM, Engineering Lead, Design Lead</p>
-        </section>
-
-        {/* 2. Introduction / Background / Problem Statement */}
+        {/* Problem Statement */}
         <section className="bg-card border border-border rounded-lg p-6">
           <h2 className="text-lg font-semibold mb-4">Problem Statement</h2>
           <div className="space-y-3 text-sm leading-relaxed">
@@ -163,35 +157,7 @@ export default function ProductBriefPage() {
           </div>
         </section>
 
-        {/* 6. User Experience & Design */}
-        <section className="bg-card border border-border rounded-lg p-6">
-          <h2 className="text-lg font-semibold mb-4">User Experience &amp; Design</h2>
-          <div className="space-y-3 text-sm leading-relaxed">
-            <div className="border border-border rounded-lg p-4">
-              <h3 className="font-semibold mb-2">User Flow</h3>
-              <ol className="space-y-1 list-decimal list-inside">
-                <li>Coordinator lands on patient dashboard — sees risk-tier summary cards and patient list sorted by risk score.</li>
-                <li>Coordinator selects a patient — sees tabbed detail view with risk assessment, AI narrative, and interventions.</li>
-                <li>Coordinator reviews AI-suggested interventions — accepts, rejects, or marks as not applicable.</li>
-                <li>Coordinator adds custom interventions as needed.</li>
-                <li>Coordinator assigns or updates patient ownership.</li>
-                <li>Coordinator tracks intervention progress over time.</li>
-                <li>Quality officer reviews aggregate outcomes on the Insights dashboard.</li>
-              </ol>
-            </div>
-            <div className="border border-border rounded-lg p-4">
-              <h3 className="font-semibold mb-2">Key Design Decisions</h3>
-              <ul className="space-y-1 list-disc list-inside">
-                <li>Risk tier color coding (HIGH = red, MEDIUM = yellow, LOW = green) for immediate visual triage.</li>
-                <li>AI outputs clearly labeled with "AI-generated content — verify against patient profile" warnings.</li>
-                <li>Confidence levels (HIGH / MODERATE / LOW) on every AI claim.</li>
-                <li>Tabbed layout to avoid overwhelming coordinators with all information at once.</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        {/* 7. Technical & System Requirements */}
+        {/* Technical & System Requirements */}
         <section className="bg-card border border-border rounded-lg p-6">
           <h2 className="text-lg font-semibold mb-4">Technical &amp; System Requirements</h2>
           <div className="space-y-4 text-sm leading-relaxed">
@@ -199,9 +165,9 @@ export default function ProductBriefPage() {
             <div>
               <h3 className="font-semibold mb-2">Non-Functional Requirements</h3>
               <ul className="space-y-2 list-disc list-inside">
-                <li><strong>Performance:</strong> Patient dashboard must load in under 2 seconds. AI narrative generation may take 3–5 seconds with a loading state.</li>
+                <li><strong>Performance:</strong> Patient dashboard must load in under 2 seconds. AI narrative generation requires a loading state.</li>
                 <li><strong>Security:</strong> No PHI or PII stored in prototype. Production requires HIPAA-compliant hosting (TLS 1.3, AES-256), BAAs with all vendors, and data minimization practices.</li>
-                <li><strong>Scalability:</strong> Architecture must support scaling from 30 synthetic records to hospital-scale patient populations (thousands of active patients).</li>
+                <li><strong>Scalability:</strong> Architecture must support scaling to hospital patient populations (thousands of active patients).</li>
                 <li><strong>Compliance:</strong> Must follow clinical safety guardrails: temperature 0 for deterministic outputs, closed-context constraint, cite-or-don't-say rules, no differential diagnosis.</li>
               </ul>
             </div>
@@ -209,9 +175,6 @@ export default function ProductBriefPage() {
             <div>
               <h3 className="font-semibold mb-2">Dependencies</h3>
               <ul className="space-y-2 list-disc list-inside">
-                <li><strong>Claude API</strong> — AI narrative and intervention generation. Requires BAA for production.</li>
-                <li><strong>PostHog</strong> — Analytics and observability.</li>
-                <li><strong>Next.js / React</strong> — Frontend framework.</li>
                 <li><strong>EHR system (production):</strong> FHIR API access from Epic or Cerner. Requires healthcare IT coordination and BAA.</li>
               </ul>
             </div>
@@ -234,7 +197,6 @@ export default function ProductBriefPage() {
             <div className="border border-border rounded-lg p-4">
               <h3 className="font-semibold mb-2">Business Constraints</h3>
               <ul className="space-y-1 list-disc list-inside">
-                <li><strong>Synthetic data only:</strong> Prototype validated on 30 records. Real-world performance may differ.</li>
                 <li><strong>No production infrastructure:</strong> No BAA, no HIPAA-compliant hosting, no IRB review. Prototype for demonstration only.</li>
                 <li><strong>Rule-based model limitations:</strong> Weights and factors may not generalize across different hospital populations and case mixes.</li>
                 <li><strong>Adoption risk:</strong> Tool must save coordinators time (5 min vs. 30–60 min per patient) or adoption will fail.</li>
