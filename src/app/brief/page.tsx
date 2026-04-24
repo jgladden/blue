@@ -99,8 +99,8 @@ export default function ProductBriefPage() {
                 <li><strong>Rule-based risk scoring engine:</strong> 16 weighted factors inspired by LACE and HOSPITAL indices. Transparent, auditable, deterministic.</li>
                 <li><strong>AI-powered risk narratives:</strong> Plain-language summaries with confidence levels, evidence grounding, and data gap identification.</li>
                 <li><strong>AI-recommended interventions:</strong> Priority-ranked with confidence scores and full status tracking.</li>
-                <li><strong>Coordinator interventions:</strong> Allow care managers to add their own recommendations alongside AI-generated ones.</li>
-                <li><strong>Care care manager assignment:</strong> Per-patient assignment tracking.</li>
+                <li><strong>Care manager interventions:</strong> Allow care managers to add their own recommendations alongside AI-generated ones.</li>
+                <li><strong>Care manager assignment:</strong> Per-patient assignment tracking.</li>
                 <li><strong>Tabbed patient detail view:</strong> Intervention, Assessment, and Assessment Notes tabs.</li>
                 <li><strong>Insights dashboard:</strong> 30-day outcome rates, per-tier cost avoidance estimates, intervention acceptance and completion rates.</li>
               </ul>
@@ -191,20 +191,20 @@ export default function ProductBriefPage() {
 
         {/* Timeline */}
         <section className="bg-card border border-border rounded-lg p-6">
-          <h2 className="text-lg font-semibold mb-4">Timeline</h2>
+          <h2 className="text-lg font-semibold mb-4">Timeline (Aggressive)</h2>
           <div className="space-y-4 text-sm leading-relaxed">
             <div>
-              <h3 className="font-semibold mb-1">Week 1: Research &amp; Definition</h3>
+              <h3 className="font-semibold mb-1">Week 1-2: Research &amp; Definition</h3>
               <ul className="space-y-1 list-disc list-inside">
                 <li>Share prototype with customer for sign-off</li>
                 <li>Make revisions to features and scope</li>
-                <li>Finalize user stories and AC</li>
+                <li>Finalize user stories and acceptance criteria</li>
                 <li>Engineering and design lead review</li>
                 <li>Prioritize for next release cycle</li>
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold mb-1">Week 2-3: Development</h3>
+              <h3 className="font-semibold mb-1">Week 3-4: Development</h3>
               <ul className="space-y-1 list-disc list-inside">
                 <li>Finalize API contracts and data models</li>
                 <li>Frontend and backend engineering implementation</li>
@@ -212,10 +212,10 @@ export default function ProductBriefPage() {
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold mb-1">Week 4: QA, UAT, and Launch</h3>
+              <h3 className="font-semibold mb-1">Week 5-6: QA, UAT, and Launch</h3>
               <ul className="space-y-1 list-disc list-inside">
-                <li>Quality Assurance testing</li>
-                <li>User Acceptance Testing</li>
+                <li>User acceptance testing (UAT) with care managers</li>
+                <li>Quality Assurance testing: Stress and load testing, manual and automated E2E, LLM output validation, clinical accuracy benchmarking</li>
                 <li>Deployment and monitoring</li>
               </ul>
             </div>
@@ -271,6 +271,12 @@ export default function ProductBriefPage() {
             <div className="border-t border-border pt-4">
               <h3 className="font-semibold mb-2">Assumptions</h3>
               <ul className="space-y-2 list-disc list-inside">
+                <li>Extensive intel gathering; budget, timeline, pain points, competing solutions, success metrics, and stakeholder alignment.</li>
+                <li>Approved by hospital IT and current software is compatible with integrating the app into the workflow.</li>
+                <li>Cost analysis of high volume LLM usage has been completed.</li>
+                <li>Consultation with legal and compliance teams to ensure that the app meets all regulatory requirements.</li>
+                <li>Urgency, an aggressive timeline is neccessary to ensure the success of the project.</li>
+                <li>Development timeline discussed and approved by lead engineer.</li>
                 <li>Hospital identified the care manager caseload and intervention tracking as a primary contributor to readmission.</li>
                 <li>The admission date signals that a doctor has made a diagnosis and prescribed necessary treatment.</li>
                 <li>Average readmission cost: $20,000 (based on published Medicare estimates).</li>
