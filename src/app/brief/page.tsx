@@ -17,7 +17,7 @@ export default function ProductBriefPage() {
             <div>
               <h3 className="font-semibold mb-1">The Why</h3>
               <p>
-                Discharge coordinators have the data to predict 30-day readmissions but it is scattered across disconnected EHR screens and requires time consuming manual analysis. The national readmission rate is 15–17%, costing the U.S. healthcare system over $26B annually. The top drivers — medication access, follow-up gaps, social isolation, language barriers — are coordination failures, not clinical mysteries.
+                A large hospital system has approached us with a problem: too many patients are being readmitted within 30 days of discharge, driving up costs, hurting quality scores, and, most importantly, indicating that patients aren't getting what they need to recover safely at home. They've asked us to build an AI-powered clinical decision support tool that helps care teams identify high-risk patients before discharge and take action to prevent avoidable readmissions.
               </p>
             </div>
 
@@ -25,7 +25,7 @@ export default function ProductBriefPage() {
               <h3 className="font-semibold mb-1">Value Proposition</h3>
 
               <p>
-                Reduces HRRP financial penalties, enhances coordinator productivity, improves patient outcomes, and delivers measurable ROI through avoided readmissions.
+                Reduce HRRP financial penalties, improve patient outcomes, and deliver measurable ROI through avoided readmissions.
               </p>
             </div>
           </div>
@@ -62,11 +62,7 @@ export default function ProductBriefPage() {
               <p className="mt-1">The clinician responsible for assessing patient readiness for discharge and coordinating post-acute care. Manages 15–30 discharges per day across multiple EHR screens. Needs a unified view of patient risk without manual chart review.</p>
             </div>
             <div className="border border-border rounded-lg p-4">
-              <h3 className="font-semibold">Secondary: Hospitalist</h3>
-              <p className="mt-1">Reviews discharge plans and needs a quick understanding of patient risk factors and planned interventions during rounds.</p>
-            </div>
-            <div className="border border-border rounded-lg p-4">
-              <h3 className="font-semibold">Tertiary: Quality Officer</h3>
+              <h3 className="font-semibold">Secondary: Quality Officer</h3>
               <p className="mt-1">Monitors readmission rates and intervention effectiveness at the population level. Needs aggregate analytics and outcome tracking.</p>
             </div>
           </div>
@@ -83,7 +79,7 @@ export default function ProductBriefPage() {
                 <li><strong>Patient Dashboard:</strong> Risk distribution summary cards, sortable/filterable table with search, date range filtering, assignee/status filters.</li>
                 <li><strong>Rule-based risk scoring engine:</strong> 16 weighted factors inspired by LACE and HOSPITAL indices. Transparent, auditable, deterministic.</li>
                 <li><strong>AI-powered risk narratives:</strong> Plain-language summaries with confidence levels, evidence grounding, and data gap identification.</li>
-                <li><strong>AI-recommended interventions:</strong> Priority-ranked with confidence scores and full status tracking (Not Started, In Progress, Completed, Not Applicable).</li>
+                <li><strong>AI-recommended interventions:</strong> Priority-ranked with confidence scores and full status tracking.</li>
                 <li><strong>Coordinator interventions:</strong> Allow coordinators to add their own recommendations alongside AI-generated ones.</li>
                 <li><strong>Care coordinator assignment:</strong> Per-patient assignment tracking.</li>
                 <li><strong>Tabbed patient detail view:</strong> Intervention, Assessment, and Assessment Notes tabs.</li>
@@ -157,7 +153,7 @@ export default function ProductBriefPage() {
             <div>
               <h3 className="font-semibold mb-2">Non-Functional Requirements</h3>
               <ul className="space-y-2 list-disc list-inside">
-                <li><strong>Performance:</strong> Patient dashboard must load in under 2 seconds. AI narrative generation requires a loading state.</li>
+                <li><strong>Performance:</strong> Patient dashboard must load in under 2 seconds.</li>
                 <li><strong>Security:</strong> No PHI or PII stored in prototype. Production requires HIPAA-compliant hosting (TLS 1.3, AES-256), BAAs with all vendors, and data minimization practices.</li>
                 <li><strong>Scalability:</strong> Architecture must support scaling to hospital patient populations (thousands of active patients).</li>
                 <li><strong>Compliance:</strong> Must follow clinical safety guardrails: temperature 0 for deterministic outputs, closed-context constraint, cite-or-don't-say rules, no differential diagnosis.</li>
