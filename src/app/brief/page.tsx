@@ -272,7 +272,7 @@ export default function ProductBriefPage() {
               <h3 className="font-semibold mb-2">Assumptions</h3>
               <ul className="space-y-2 list-disc list-inside">
                 <li>Extensive intel gathering; budget, timeline, pain points, competing solutions, success metrics, and stakeholder alignment.</li>
-                <li>Approved by hospital IT and current software is compatible with integrating the app into the workflow.</li>
+                <li>Approved by hospital IT and current software is compatible with hospital's EHR and FHIR APIs.</li>
                 <li>The hospital can provide a much larger dataset to calibrate scoring model.</li>
                 <li>Cost analysis of high volume LLM usage has been completed.</li>
                 <li>Consultation with legal and compliance teams to ensure that the app meets all regulatory requirements.</li>
