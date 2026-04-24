@@ -273,6 +273,7 @@ export default function ProductBriefPage() {
               <ul className="space-y-2 list-disc list-inside">
                 <li>Extensive intel gathering; budget, timeline, pain points, competing solutions, success metrics, and stakeholder alignment.</li>
                 <li>Approved by hospital IT and current software is compatible with integrating the app into the workflow.</li>
+                <li>The hospital can provide a much larger dataset to calibrate scoring model.</li>
                 <li>Cost analysis of high volume LLM usage has been completed.</li>
                 <li>Consultation with legal and compliance teams to ensure that the app meets all regulatory requirements.</li>
                 <li>Urgency, an aggressive timeline is necessary to ensure the success of the project.</li>
@@ -280,7 +281,7 @@ export default function ProductBriefPage() {
                 <li>Hospital identified the care manager caseload and intervention tracking as a primary contributor to readmission.</li>
                 <li>The admission date signals that a doctor has made a diagnosis and prescribed necessary treatment.</li>
                 <li>Average readmission cost: $20,000 (based on published Medicare estimates).</li>
-                <li>HIGH-risk prevention rate: 15%, MEDIUM-risk prevention rate: 8% (drawn from care coordination program literature).</li>
+                <li>HIGH-risk prevention rate: 15%, MEDIUM-risk prevention rate: 8% (drawn from care coordination program research).</li>
                 <li>Baseline 30-day readmission rate: 15.4% (calculated from the provided synthetic dataset).</li>
               </ul>
             </div>
