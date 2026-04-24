@@ -204,7 +204,7 @@ export default function ProductBriefPage() {
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold mb-1">Week 3-4: Development</h3>
+              <h3 className="font-semibold mb-1">Week 3-5: Development</h3>
               <ul className="space-y-1 list-disc list-inside">
                 <li>Finalize API contracts and data models</li>
                 <li>Frontend and backend engineering implementation</li>
@@ -212,7 +212,7 @@ export default function ProductBriefPage() {
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold mb-1">Week 5-6: QA, UAT, and Launch</h3>
+              <h3 className="font-semibold mb-1">Week 6-7: QA, UAT, and Launch</h3>
               <ul className="space-y-1 list-disc list-inside">
                 <li>User acceptance testing (UAT) with care managers</li>
                 <li>Quality Assurance testing: Stress and load testing, manual and automated E2E, LLM output validation, clinical accuracy benchmarking</li>
