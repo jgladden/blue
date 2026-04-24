@@ -218,9 +218,12 @@ export default function ProductBriefPage() {
 
             <div className="border-t border-border pt-4">
               <h3 className="font-semibold mb-2">Assumptions</h3>
-              <p className="text-sm text-muted">
-                Average readmission cost: $20,000 (based on published Medicare estimates). HIGH-risk prevention rate: 15%, MEDIUM-risk prevention rate: 8% (drawn from care coordination program literature). Baseline 30-day readmission rate: 15.4% (calculated from the provided synthetic dataset). These assumptions must be validated against the partner hospital's actual data before ROI calculations are used for decision-making.
-              </p>
+              <ul className="space-y-2 list-disc list-inside">
+                <li>Hospital identified the discharge coordinator caseload and intervention tracking as a primary contributor to readmission.</li>
+                <li>Average readmission cost: $20,000 (based on published Medicare estimates).</li>
+                <li>HIGH-risk prevention rate: 15%, MEDIUM-risk prevention rate: 8% (drawn from care coordination program literature).</li>
+                <li>Baseline 30-day readmission rate: 15.4% (calculated from the provided synthetic dataset).</li>
+              </ul>
             </div>
 
           </div>
