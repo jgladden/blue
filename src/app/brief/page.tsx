@@ -17,7 +17,7 @@ export default function ProductBriefPage() {
             <div>
               <h3 className="font-semibold mb-1">The Why</h3>
               <p>
-                Discharge coordinators have the data to predict 30-day readmissions (prior utilization, comorbidities, medication complexity, social determinants) but it is scattered across disconnected EHR screens with no unified risk picture at the point of discharge. The national readmission rate is 15–17%, costing the U.S. healthcare system over $26B annually. The top drivers — medication access, follow-up gaps, social isolation, language barriers — are coordination failures, not clinical mysteries.
+                Discharge coordinators have the data to predict 30-day readmissions but it is scattered across disconnected EHR screens and requires time consuming manual analysis. The national readmission rate is 15–17%, costing the U.S. healthcare system over $26B annually. The top drivers — medication access, follow-up gaps, social isolation, language barriers — are coordination failures, not clinical mysteries.
               </p>
             </div>
 
@@ -44,18 +44,9 @@ export default function ProductBriefPage() {
             <div className="border border-border rounded-lg p-4">
               <h3 className="font-semibold text-base">KPIs</h3>
               <ul className="space-y-2 mt-2 list-disc list-inside">
-                <li><strong>Intervention Completion Rate</strong> (Target: &gt;60% within 90 days) — measures whether the tool drives action, not just awareness.</li>
+                <li><strong>Intervention Completion Rate</strong> (Target: &gt;60% high risk patients within 90 days) — measures whether the tool drives action, not just awareness.</li>
                 <li><strong>30-Day Readmission Rate Reduction</strong> (Target: 5% reduction within 6 months) — the primary outcome metric, compared against risk-adjusted baseline.</li>
                 <li><strong>Estimated Cost Avoidance</strong> (Target: demonstrable ROI within first quarter) — calculated as patients per risk tier x completion rate x prevention rate x average readmission cost ($20K).</li>
-              </ul>
-            </div>
-
-            <div className="border border-border rounded-lg p-4">
-              <h3 className="font-semibold text-base">Non-Goals</h3>
-              <ul className="space-y-2 mt-2 list-disc list-inside">
-                <li>Post-discharge active monitoring (follow-up calls, home health coordination) — V2 scope.</li>
-                <li>Custom ML model training — the synthetic dataset (30 records) is insufficient; rule-based approach preferred for explainability.</li>
-                <li>Authentication and RBAC — not needed for prototype validation.</li>
               </ul>
             </div>
 
