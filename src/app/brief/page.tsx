@@ -186,7 +186,7 @@ export default function ProductBriefPage() {
               <h3 className="font-semibold mb-2">Business Constraints</h3>
               <ul className="space-y-1 list-disc list-inside">
                 <li><strong>No production infrastructure:</strong> No BAA, no HIPAA-compliant hosting, no IRB review. Prototype for demonstration only.</li>
-                <li><strong>Rule-based model limitations:</strong> Weights and factors may not generalize across different hospital populations and case mixes.</li>
+                <li><strong>Rule-based model limitations:</strong> Weights and factors may not generalize across different case mixes.</li>
                 <li><strong>Adoption risk:</strong> Tool must save coordinators time (5 min vs. 30–60 min per patient) or adoption will fail.</li>
               </ul>
             </div>
