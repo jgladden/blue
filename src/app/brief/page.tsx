@@ -220,6 +220,7 @@ export default function ProductBriefPage() {
               <h3 className="font-semibold mb-2">Assumptions</h3>
               <ul className="space-y-2 list-disc list-inside">
                 <li>Hospital identified the discharge coordinator caseload and intervention tracking as a primary contributor to readmission.</li>
+                <li>The admission date signals that a doctor has made a diagnosis and prescribed neccessary treament.</li>
                 <li>Average readmission cost: $20,000 (based on published Medicare estimates).</li>
                 <li>HIGH-risk prevention rate: 15%, MEDIUM-risk prevention rate: 8% (drawn from care coordination program literature).</li>
                 <li>Baseline 30-day readmission rate: 15.4% (calculated from the provided synthetic dataset).</li>
