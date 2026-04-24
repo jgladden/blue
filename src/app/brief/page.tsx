@@ -72,9 +72,9 @@ export default function ProductBriefPage() {
           </div>
         </section>
 
-        {/* 4. Target Audience / Personas */}
+        {/* 4. Personas */}
         <section className="bg-card border border-border rounded-lg p-6">
-          <h2 className="text-lg font-semibold mb-4">Target Audience / Personas</h2>
+          <h2 className="text-lg font-semibold mb-4">Personas</h2>
           <div className="space-y-3 text-sm leading-relaxed">
             <div className="border border-border rounded-lg p-4">
               <h3 className="font-semibold">Primary: Care Manager</h3>
@@ -275,7 +275,7 @@ export default function ProductBriefPage() {
                 <li>Approved by hospital IT and current software is compatible with integrating the app into the workflow.</li>
                 <li>Cost analysis of high volume LLM usage has been completed.</li>
                 <li>Consultation with legal and compliance teams to ensure that the app meets all regulatory requirements.</li>
-                <li>Urgency, an aggressive timeline is neccessary to ensure the success of the project.</li>
+                <li>Urgency, an aggressive timeline is necessary to ensure the success of the project.</li>
                 <li>Development timeline discussed and approved by lead engineer.</li>
                 <li>Hospital identified the care manager caseload and intervention tracking as a primary contributor to readmission.</li>
                 <li>The admission date signals that a doctor has made a diagnosis and prescribed necessary treatment.</li>
