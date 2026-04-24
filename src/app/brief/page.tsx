@@ -45,7 +45,7 @@ export default function ProductBriefPage() {
               <h3 className="font-semibold text-base">KPIs</h3>
               <ul className="space-y-2 mt-2 list-disc list-inside">
                 <li><strong>Intervention Completion Rate</strong> (Target: &gt;60% high risk patients within 90 days) — measures whether the tool drives action, not just awareness.</li>
-                <li><strong>30-Day Readmission Rate Reduction</strong> (Target: 5% reduction within 6 months) — the primary outcome metric, compared against risk-adjusted baseline.</li>
+                <li><strong>30-Day Readmission Rate Reduction</strong> (Target: 2% reduction within 6 months) — the primary outcome metric, compared against risk-adjusted baseline.</li>
                 <li><strong>Estimated Cost Avoidance</strong> (Target: demonstrable ROI within first quarter) — calculated as patients per risk tier x completion rate x prevention rate x average readmission cost ($20K).</li>
               </ul>
             </div>
