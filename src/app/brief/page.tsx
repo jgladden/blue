@@ -153,7 +153,7 @@ export default function ProductBriefPage() {
             <div>
               <h3 className="font-semibold mb-2">Non-Functional Requirements</h3>
               <ul className="space-y-2 list-disc list-inside">
-                <li><strong>Performance:</strong> Patient dashboard must load in under 2 seconds.</li>
+                <li><strong>Performance:</strong> Patient dashboard must load in under 2 seconds. LLM response optimized for speed (token efficiency as a secondary concern).</li>
                 <li><strong>Security:</strong> No PHI or PII stored in prototype. Production requires HIPAA-compliant hosting (TLS 1.3, AES-256), BAAs with all vendors, and data minimization practices.</li>
                 <li><strong>Scalability:</strong> Architecture must support scaling to hospital patient populations (thousands of active patients).</li>
                 <li><strong>Compliance:</strong> Must follow clinical safety guardrails: temperature 0 for deterministic outputs, closed-context constraint, cite-or-don't-say rules, no differential diagnosis.</li>
